@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main_app.models import Habit, HabitsConnection
+from main_app.paginators import paginate
 from main_app.serializers import HabitSerializer
 
 
@@ -25,6 +26,34 @@ class HabitView(APIView):
             'id': habit.pk
         }
         return Response(data=response_data, status=status.HTTP_201_CREATED)
+
+    def get(self, request: Request, *args, **kwargs):
+        """Получить список всех привычек пользователя"""
+        page_number = request.query_params.get('page', 1)
+        habits = Habit.objects.filter(user=self.request.user)
+        response = paginate(
+            query=HabitSerializer(habits, many=True).data,
+            per_page=1,
+            page_number=page_number,
+        )
+
+        return Response(data=response, status=status.HTTP_200_OK)
+
+
+class HabitsPublicView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        """Получить список всех публичных привычек"""
+        page_number = request.query_params.get('page', 1)
+        habits = Habit.objects.filter(publicity=Habit.Publicity.PUBLIC).values(
+            'action', 'place', 'time', 'habit_type', 'periodicity', 'reward', 'time_to_complete'
+        )
+        response = paginate(
+            query=habits,
+            per_page=1,
+            page_number=page_number,
+        )
+        return Response(data=response, status=status.HTTP_200_OK)
 
 
 class HabitsConnectionCreateAPIView(APIView):

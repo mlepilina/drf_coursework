@@ -39,7 +39,7 @@ class Habit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь', related_name='habits')
 
     def __str__(self):
-        return f'{self.action}. User: {self.user}'
+        return f'{self.action}. Пользователь: {self.user}'
 
     class Meta:
         verbose_name = 'привычка'
@@ -48,8 +48,8 @@ class Habit(models.Model):
 
 class HabitsConnection(models.Model):
 
-    useful = models.ForeignKey(Habit, related_name='link_usefuls', on_delete=models.CASCADE)
-    pleasant = models.ForeignKey(Habit, related_name='link_pleasants', on_delete=models.CASCADE)
+    useful = models.ForeignKey(Habit, related_name='link_usefuls', on_delete=models.CASCADE, verbose_name='полезная привычка')
+    pleasant = models.ForeignKey(Habit, related_name='link_pleasants', on_delete=models.CASCADE, verbose_name='приятная привычка')
 
     def __str__(self):
         return f'{self.useful}{self.pleasant}'
@@ -57,3 +57,24 @@ class HabitsConnection(models.Model):
     class Meta:
         verbose_name = 'связанная привычка'
         verbose_name_plural = 'связанные привычки'
+
+
+class Notice(models.Model):
+
+    class SendingType(models.TextChoices):
+        EMAIL = ('email', 'по почте')
+        TELEGRAM = ('telegram', 'в телеграм')
+
+    sending_time = models.DateTimeField(verbose_name='время отправки уведомления')
+    text = models.TextField(verbose_name='текст уведомления')
+    sending_type = models.CharField(max_length=50, choices=SendingType.choices, verbose_name='тип отправки')
+
+    habit = models.ForeignKey(Habit, related_name='notifications', on_delete=models.CASCADE, verbose_name='привычка')
+
+    def __str__(self):
+        return f'{self.habit} {self.sending_type} {self.sending_time}'
+
+    class Meta:
+        verbose_name = 'уведомление'
+        verbose_name_plural = 'уведомления'
+
