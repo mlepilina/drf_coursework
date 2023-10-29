@@ -59,6 +59,7 @@ class HabitsPublicView(APIView):
 class HabitsConnectionCreateAPIView(APIView):
 
     def post(self, request: Request, habit_id: int):
+        """Связать привычку"""
         useful_habit: Habit = get_object_or_404(Habit, pk=habit_id, habit_type=Habit.HabitType.USEFUL)
         if useful_habit.reward:
             error_text = f'Полезную привычку с вознаграждением нельзя связывать'
