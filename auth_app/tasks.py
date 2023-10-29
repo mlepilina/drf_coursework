@@ -7,8 +7,8 @@ from django.core.mail import send_mail
 @app.task
 def send_mail_task(email, name):
     """
-    Запуск сразу: send_mail.delay()
-    Отложенный запуск: send_mail.apply_async(args=(), countdown=15)
+    Запуск сразу: send_mail_task.delay()
+    Отложенный запуск: send_mail_task.apply_async(args=(), countdown=15)
     """
     send_mail(
         subject='Поздравляем с регистрацией',

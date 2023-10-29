@@ -180,3 +180,14 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'main_app.tasks.create_notification',
+        'schedule': timedelta(minutes=1),
+    },
+}
+
+
+TELEGRAM_TOKEN = 'bot6365365486:AAGTGgWdoeCyo53p6qmhLWHslamslNRUL94'
+

@@ -20,7 +20,7 @@ class Habit(models.Model):
 
     action = models.CharField(max_length=200, verbose_name='действие привычки')
     place = models.CharField(max_length=100, verbose_name='место')
-    time = models.DateTimeField(verbose_name='время')
+    time = models.TimeField(verbose_name='время')
     habit_type = models.CharField(max_length=50, choices=HabitType.choices, verbose_name='тип привычки')
     periodicity = ArrayField(
         base_field=models.IntegerField(),

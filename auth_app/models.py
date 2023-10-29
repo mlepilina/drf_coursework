@@ -13,6 +13,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=100, verbose_name='имя')
     phone = models.PositiveBigIntegerField(verbose_name='номер телефона', unique=True)
     nickname = models.CharField(max_length=100, verbose_name='никнейм в телеграм', **NULLABLE)
+    chat_id = models.BigIntegerField(verbose_name='чат id телеграм', **NULLABLE)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
