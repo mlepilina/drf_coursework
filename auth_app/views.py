@@ -12,4 +12,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         new_user = serializer.save()
+        new_user.set_password(new_user.password)
+        new_user.save()
+
         send_mail_task.delay(new_user.email, new_user.name)
