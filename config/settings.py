@@ -65,13 +65,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'drf_coursework'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', '12345'),
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': int(os.getenv('DB_PORT')),
     }
 }
 
-REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = os.getenv('REDIS_PORT')
+REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

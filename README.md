@@ -35,3 +35,13 @@ celery -A config beat -l info
 ```
 Authorization: Bearer <access_token>
 ```
+
+## Запуск Docker
+
+Создайте файл .env на основе примера .env.example, заполните его корректными значениями. 
+
+Для запуска наберите команду:
+
+```shell
+docker-compose up --build
+```
